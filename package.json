@@ -1,0 +1,12 @@
+{
+  "name": "css-task-automater",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Moudud Abu <moududabu2017@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "query-ast": "^1.0.4",
+    "scss-parser": "^1.0.5"
+  }
+}
