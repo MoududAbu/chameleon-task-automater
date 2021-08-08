@@ -1,4 +1,4 @@
-const { fileReader } = require("./file-reader");
+const { fileReader, fileWriter } = require("./file-editor");
 let { parse, stringify } = require("scss-parser");
 let createQueryWrapper = require("query-ast");
 const { filter, indexOf, property } = require("lodash");
@@ -7,38 +7,38 @@ const componentPath =
   "../sounds-components/src/components/organisms/Banner/banner.scss";
 
 const searchColorProperties = (regex, data) => {
-  const cssColorProperties = [];
+  const cssColorProperties = {};
   while ((match = regex.exec(data)) != null) {
     const start = match.index;
     const end = data.indexOf(";", match.index);
     const colorProperty = data.substring(match.index, end + 1);
-    cssColorProperties.push(colorProperty);
+    cssColorProperties[colorProperty] = updateColorProperty(colorProperty);
   }
   return cssColorProperties;
 };
 
 const updateColorProperty = (cssProperty) => {
-  return cssProperty.replace("$color", "var(--").replace(";", ");");
+  return cssProperty.replace("$color-", "var(--").replace(";", ");");
 };
 
 const updateColorProperties = (cssColorProperties, data) => {
+  const regexString = Object.keys(cssColorProperties)
+    .join("|")
+    .replaceAll(/\$/g, "\\$");
+  const regex = new RegExp(regexString, "gi");
 
-  cssColorProperties.forEach((cssProperty) => {
-    updatedProperty = updateColorProperty(cssProperty);
-    let results = data.replace(cssProperty, updatedProperty);
-    console.log(results);
+  return data.replace(regex, function (matched) {
+    return cssColorProperties[matched];
   });
+};
 
-  // return data;
-}
-
-const readFile = (data) => {
+const updateFile = (data) => {
   if (data.includes("$color") && data.includes(";")) {
     const regex = /\$color/g;
     const cssColorProperties = searchColorProperties(regex, data);
     const result = updateColorProperties(cssColorProperties, data);
-    // console.log(result)
+    fileWriter(componentPath, result)
   }
 };
 
-fileReader(componentPath, readFile);
+fileReader(componentPath, updateFile);
