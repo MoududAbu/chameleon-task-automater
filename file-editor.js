@@ -18,7 +18,7 @@ const fileReader = (path, callback) =>
   });
 
 const fileWriter = async (path, fileUpdate) =>
-  await fs.writeFile(path, fileUpdate, function (err) {
+  await fs.writeFileSync(path, fileUpdate, function (err) {
     if (err) {
       return console.log(err);
     }

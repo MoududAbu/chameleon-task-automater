@@ -12,7 +12,7 @@ const searchColorProperties = (regex, data) => {
 };
 
 const updateColorProperty = (cssProperty) => {
-  return cssProperty.replace("$color-", "var(--").replace(";", ");");
+  return cssProperty.replace("$color-", "var(--color-").replace(";", ");");
 };
 
 const updateColorProperties = (cssColorProperties, data) => {
