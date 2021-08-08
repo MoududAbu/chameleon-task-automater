@@ -1,4 +1,4 @@
-const { fileReader, fileWriter } = require("./file-editor");
+const { fileReader, fileWriter, getDirPath } = require("./file-editor");
 let { parse, stringify } = require("scss-parser");
 let createQueryWrapper = require("query-ast");
 const { filter, indexOf, property } = require("lodash");
@@ -41,4 +41,5 @@ const updateFile = (data) => {
   }
 };
 
-fileReader(componentPath, updateFile);
+// fileReader(componentPath, updateFile);
+getDirPath();
