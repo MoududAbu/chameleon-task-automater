@@ -53,10 +53,6 @@ const getDirPath = () => {
   getDirInput(directoryPath, outputDir);
 };
 
-rl.on("close", function () {
-  process.exit(0);
-});
-
 module.exports = {
   fileReader,
   fileWriter,
