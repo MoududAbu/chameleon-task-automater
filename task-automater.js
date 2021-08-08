@@ -1,10 +1,4 @@
-const { fileReader, fileWriter, getDirPath } = require("./file-editor");
-let { parse, stringify } = require("scss-parser");
-let createQueryWrapper = require("query-ast");
-const { filter, indexOf, property } = require("lodash");
-
-const componentPath =
-  "../sounds-components/src/components/organisms/Banner/banner.scss";
+const { fileWriter, updateCSS } = require("./file-editor");
 
 const searchColorProperties = (regex, data) => {
   const cssColorProperties = {};
@@ -24,7 +18,12 @@ const updateColorProperty = (cssProperty) => {
 const updateColorProperties = (cssColorProperties, data) => {
   const regexString = Object.keys(cssColorProperties)
     .join("|")
-    .replaceAll(/\$/g, "\\$");
+    .replaceAll(/\$/g, "\\$")
+    .replace(/[0-9]/g, '')
+    .replace(/[.,\s]/g, '')
+    .replace(/\s/g,'')
+    .replace(/Unmatched/, '');
+
   const regex = new RegExp(regexString, "gi");
 
   return data.replace(regex, function (matched) {
@@ -32,7 +31,7 @@ const updateColorProperties = (cssColorProperties, data) => {
   });
 };
 
-const updateFile = (data) => {
+const updateFile = (data, componentPath) => {
   if (data.includes("$color") && data.includes(";")) {
     const regex = /\$color/g;
     const cssColorProperties = searchColorProperties(regex, data);
@@ -41,5 +40,4 @@ const updateFile = (data) => {
   }
 };
 
-// fileReader(componentPath, updateFile);
-getDirPath();
+updateCSS(updateFile);
