@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Moudud Abu <moududabu2017@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node task-automater.js"
+  },
   "dependencies": {
     "glob": "^7.1.7",
     "lodash": "^4.17.21",
